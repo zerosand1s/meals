@@ -5,6 +5,11 @@ import '../dummy_data.dart';
 class MealDetailScreen extends StatelessWidget {
   static const routeName = '/meal-detail';
 
+  final Function isFavorite;
+  final Function toggleFavorite;
+
+  MealDetailScreen(this.isFavorite, this.toggleFavorite);
+
   Widget buildSectionTitle(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15),
@@ -27,58 +32,65 @@ class MealDetailScreen extends StatelessWidget {
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('${selectedMeal.title}'),
+      appBar: AppBar(
+        title: Text('${selectedMeal.title}'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 300,
+              child: Image.network(
+                selectedMeal.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            buildSectionTitle(context, 'Ingredients'),
+            Container(
+              height: 200,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              width: double.infinity,
+              child: ListView.builder(
+                itemCount: selectedMeal.ingredients.length,
+                itemBuilder: (context, i) {
+                  return Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Text(
+                      '${i + 1}.  ' + selectedMeal.ingredients[i],
+                      style: TextStyle(fontSize: 14, letterSpacing: 0.5),
+                    ),
+                  );
+                },
+              ),
+            ),
+            buildSectionTitle(context, 'Steps'),
+            Container(
+              height: 200,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              width: double.infinity,
+              child: ListView.builder(
+                itemCount: selectedMeal.steps.length,
+                itemBuilder: (context, i) {
+                  return Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Text(
+                      '${i + 1}.  ' + selectedMeal.steps[i],
+                      style: TextStyle(fontSize: 14, letterSpacing: 0.5),
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 300,
-                child: Image.network(
-                  selectedMeal.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              buildSectionTitle(context, 'Ingredients'),
-              Container(
-                height: 200,
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: selectedMeal.ingredients.length,
-                  itemBuilder: (context, i) {
-                    return Container(
-                      margin: EdgeInsets.only(top: 8),
-                      child: Text(
-                        '${i + 1}.  ' + selectedMeal.ingredients[i],
-                        style: TextStyle(fontSize: 14, letterSpacing: 0.5),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              buildSectionTitle(context, 'Steps'),
-              Container(
-                height: 200,
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: selectedMeal.steps.length,
-                  itemBuilder: (context, i) {
-                    return Container(
-                      margin: EdgeInsets.only(top: 8),
-                      child: Text(
-                        '${i + 1}.  ' + selectedMeal.steps[i],
-                        style: TextStyle(fontSize: 14, letterSpacing: 0.5),
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => toggleFavorite(mealId),
+        child: Icon(
+          isFavorite(mealId) ? Icons.favorite : Icons.favorite_border,
+        ),
+      ),
+    );
   }
 }

@@ -5,24 +5,35 @@ import './favorites_screen.dart';
 
 import '../widgets/main_drawer.dart';
 
+import '../models/meal.dart';
+
 class BottomTabsScreen extends StatefulWidget {
+  final List<Meal> favoriteMeals;
+
+  BottomTabsScreen(this.favoriteMeals);
+
   @override
   _BottomTabsScreenState createState() => _BottomTabsScreenState();
 }
 
 class _BottomTabsScreenState extends State<BottomTabsScreen> {
-  final List<Map<String, Object>> _screens = [
-    {
-      'screen': CategoriesScreen(),
-      'title': 'Categories',
-    },
-    {
-      'screen': FavoritesScreen(),
-      'title': 'Your Favorites',
-    }
-  ];
-
+  List<Map<String, Object>> _screens;
   int _selectedScreenIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      {
+        'screen': CategoriesScreen(),
+        'title': 'Categories',
+      },
+      {
+        'screen': FavoritesScreen(widget.favoriteMeals),
+        'title': 'Your Favorites',
+      }
+    ];
+  }
 
   void _selectScreen(int index) {
     setState(() {
