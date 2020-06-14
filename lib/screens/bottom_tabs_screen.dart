@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import './categories_screen.dart';
 import './favorites_screen.dart';
 
+import '../widgets/main_drawer.dart';
+
 class BottomTabsScreen extends StatefulWidget {
   @override
   _BottomTabsScreenState createState() => _BottomTabsScreenState();
@@ -41,6 +43,7 @@ class _BottomTabsScreenState extends State<BottomTabsScreen> {
           ),
         ),
       ),
+      drawer: MainDrawer(),
       body: _screens[_selectedScreenIndex]['screen'],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).primaryColor,
