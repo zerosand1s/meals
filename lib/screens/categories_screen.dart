@@ -7,35 +7,23 @@ import '../dummy_data.dart';
 class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Meals',
-          style: TextStyle(
-            fontSize: 24,
-            letterSpacing: 1,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+    return GridView(
+      padding: const EdgeInsets.all(15),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
+        childAspectRatio: 3 / 2,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
       ),
-      body: GridView(
-        padding: const EdgeInsets.all(15),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
-          childAspectRatio: 3 / 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-        ),
-        children: DUMMY_CATEGORIES
-            .map(
-              (category) => CategoryItem(
-                id: category.id,
-                title: category.title,
-                color: category.color,
-              ),
-            )
-            .toList(),
-      ),
+      children: DUMMY_CATEGORIES
+          .map(
+            (category) => CategoryItem(
+              id: category.id,
+              title: category.title,
+              color: category.color,
+            ),
+          )
+          .toList(),
     );
   }
 }
